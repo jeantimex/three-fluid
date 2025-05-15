@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { vertexShader, fragmentShader } from "./shaders";
 
 // init camera, scene, renderer
 const scene: THREE.Scene = new THREE.Scene();
@@ -57,8 +58,8 @@ tuniform.iResolution.value.y = window.innerHeight;
 // Create Plane
 var material = new THREE.ShaderMaterial({
   uniforms: tuniform,
-  vertexShader: document.getElementById("vertex-shader")!.textContent!,
-  fragmentShader: document.getElementById("fragment-shader")!.textContent!,
+  vertexShader: vertexShader,
+  fragmentShader: fragmentShader,
 });
 var mesh = new THREE.Mesh(
   new THREE.PlaneGeometry(window.innerWidth, window.innerHeight, 40),
