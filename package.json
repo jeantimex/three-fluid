@@ -1,0 +1,22 @@
+{
+  "name": "three-fluid",
+  "version": "1.0.0",
+  "description": "A collection of fluid simulation using Three.js, WebGL and WebGPU.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/three": "^0.176.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "three": "^0.176.0"
+  }
+}
