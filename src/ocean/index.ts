@@ -1,5 +1,8 @@
 import * as THREE from "three";
-import { vertexShader, fragmentShader } from "./shaders";
+
+// Import shader files directly
+import vertexShader from "./shaders/ocean.vert";
+import fragmentShader from "./shaders/ocean.frag";
 
 // init camera, scene, renderer
 const scene: THREE.Scene = new THREE.Scene();

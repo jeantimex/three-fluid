@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import vitePluginString from 'vite-plugin-string';
 
 export default defineConfig({
   build: {
@@ -7,4 +8,9 @@ export default defineConfig({
   server: {
     open: true,
   },
+  plugins: [
+    vitePluginString({
+      include: ['**/*.vert', '**/*.frag'],
+    }),
+  ],
 });
