@@ -22,6 +22,7 @@
     "vite-plugin-string": "^1.2.3"
   },
   "dependencies": {
+    "lil-gui": "^0.20.0",
     "three": "^0.176.0"
   }
 }

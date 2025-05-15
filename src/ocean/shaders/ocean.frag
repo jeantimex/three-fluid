@@ -4,6 +4,12 @@ uniform float iGlobalTime;
 uniform vec2 iResolution;
 uniform vec4 iMouse;
 
+// Ocean parameters (controllable via GUI)
+uniform float SEA_HEIGHT;
+uniform float SEA_CHOPPY;
+uniform float SEA_SPEED;
+uniform float SEA_FREQ;
+
 const int NUM_STEPS = 8;
 const float PI = 3.1415;
 const float EPSILON = 1e-3;
@@ -11,10 +17,6 @@ const float EPSILON = 1e-3;
 // sea
 const int ITER_GEOMETRY = 3;
 const int ITER_FRAGMENT = 5;
-const float SEA_HEIGHT = 0.6;
-const float SEA_CHOPPY = 4.0;
-const float SEA_SPEED = 0.8;
-const float SEA_FREQ = 0.16;
 const vec3 SEA_BASE = vec3(0.1, 0.19, 0.22);
 const vec3 SEA_WATER_COLOR = vec3(0.8, 0.9, 0.6);
 const mat2 octave_m = mat2(1.6, 1.2, -1.2, 1.6);
@@ -162,29 +164,32 @@ float heightMapTracing(vec3 ori, vec3 dir, out vec3 p, float sea_time) {
 void main() {
   float EPSILON_NRM = 0.1 / iResolution.x;
   float SEA_TIME = iGlobalTime * SEA_SPEED;
-
+  
   vec2 uv = gl_FragCoord.xy / iResolution.xy;
   uv = uv * 2.0 - 1.0;
-  uv.x *= iResolution.x / iResolution.y;
-  float time = iGlobalTime * 0.3 + iMouse.x * 0.01;
-
+  uv.x *= iResolution.x / iResolution.y;    
+  float time = iGlobalTime * 0.3 + iMouse.x*0.01;
+      
   // ray
-  vec3 ang = vec3(sin(time * 3.0) * 0.1, sin(time) * 0.2 + 0.3, time);
-  vec3 ori = vec3(0.0, 3.5, time * 5.0);
-  vec3 dir = normalize(vec3(uv.xy, -2.0));
-  dir.z += length(uv) * 0.15;
+  vec3 ang = vec3(sin(time*3.0)*0.1,sin(time)*0.2+0.3,time);    
+  vec3 ori = vec3(0.0,3.5,time*5.0);
+  vec3 dir = normalize(vec3(uv.xy,-2.0)); dir.z += length(uv) * 0.15;
   dir = normalize(dir) * fromEuler(ang);
-
+  
   // tracing
   vec3 p;
-  heightMapTracing(ori, dir, p, SEA_TIME);
+  heightMapTracing(ori,dir,p,SEA_TIME);
   vec3 dist = p - ori;
-  vec3 n = getNormal(p, dot(dist, dist) * EPSILON_NRM, SEA_TIME);
-  vec3 light = normalize(vec3(0.0, 1.0, 0.8)); 
-
+  vec3 n = getNormal(p, dot(dist,dist) * EPSILON_NRM, SEA_TIME);
+  vec3 light = normalize(vec3(0.0,1.0,0.8)); 
+           
   // color
-  vec3 color = mix(getSkyColor(dir), getSeaColor(p, n, light, dir, dist), pow(smoothstep(0.0, -0.05, dir.y), 0.3));
-
+  vec3 color = mix(
+    getSkyColor(dir),
+    getSeaColor(p,n,light,dir,dist),
+    pow(smoothstep(0.0,-0.05,dir.y),0.3)
+  );
+      
   // post
-  gl_FragColor = vec4(pow(color, vec3(0.75)), 1.0);
+  gl_FragColor = vec4(pow(color,vec3(0.75)), 1.0);
 }
