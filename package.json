@@ -17,6 +17,7 @@
     "@types/node": "^22.15.18",
     "@types/three": "^0.176.0",
     "gh-pages": "^6.3.0",
+    "sass": "^1.89.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-plugin-string": "^1.2.3"
